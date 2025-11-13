@@ -4,6 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import '../../../core/localization/locale_provider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+import '../../view_model/exchange_rate_provider.dart';
+import '../calendar_component/calendar.dart';
+
 class CounterPage extends HookConsumerWidget {
   const CounterPage({super.key});
 
@@ -11,6 +14,9 @@ class CounterPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final counter = useState(0);
     final localeAsync = ref.watch(localeProvider);
+
+    final currency = ref.watch(currencyCodeProvider);
+    final rateAsync = ref.watch(currentExchangeRateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -21,10 +27,21 @@ class CounterPage extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('message'.tr()),
-            Text(
-              '${counter.value}',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('현재 통화: $currency'),
+            SizedBox(height: 8),
+            switch (rateAsync) {
+              AsyncData(:final value) => Text(
+                currency == 'KRW'
+                    ? '${counter.value} 원'
+                    : '${((counter.value / 1000) * value).toStringAsFixed(2)} $currency',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              AsyncLoading() => CircularProgressIndicator(),
+              AsyncError() => Text('환율 오류'),
+              _ => SizedBox(),
+            },
+            SizedBox(height: 20),
+            Calendar(), // 🔥 캘린더 추가
           ],
         ),
       ),

@@ -27,3 +27,18 @@ class LocaleNotifier extends _$LocaleNotifier {
   }
 
 }
+
+@riverpod
+String calendarLocale(ref) {
+  final localeAsync = ref.watch(localeProvider);
+
+  return switch (localeAsync) {
+    AsyncData(:final value) => switch (value) {
+      'ko' => 'ko_KR',
+      'en' => 'en_US',
+      'zh' => 'zh_CN',
+      _ => 'ko_KR',
+    },
+    _ => 'ko_KR',
+  };
+}

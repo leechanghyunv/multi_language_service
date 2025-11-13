@@ -53,3 +53,44 @@ abstract class _$LocaleNotifier extends $AsyncNotifier<String> {
     element.handleValue(ref, created);
   }
 }
+
+@ProviderFor(calendarLocale)
+const calendarLocaleProvider = CalendarLocaleProvider._();
+
+final class CalendarLocaleProvider
+    extends $FunctionalProvider<String, String, String>
+    with $Provider<String> {
+  const CalendarLocaleProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'calendarLocaleProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$calendarLocaleHash();
+
+  @$internal
+  @override
+  $ProviderElement<String> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  String create(Ref ref) {
+    return calendarLocale(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String>(value),
+    );
+  }
+}
+
+String _$calendarLocaleHash() => r'594419dcd9d89363ea9925f26a8a6406801a27cc';

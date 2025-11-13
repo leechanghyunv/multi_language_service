@@ -20,6 +20,9 @@ dependencies:
   flutter_hooks: ^0.21.3+1
   shared_preferences: ^2.5.3
   riverpod_annotation: ^3.0.3
+  table_calendar: ^3.2.0
+  intl: ^0.20.2
+  dio: ^5.9.0
 
 dev_dependencies:
   flutter_test:

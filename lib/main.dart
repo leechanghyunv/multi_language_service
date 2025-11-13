@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_language_service/view_ui/screen/count_page_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await initializeDateFormatting();
 
   final prefs = await SharedPreferences.getInstance();
   final savedLocale = prefs.getString('locale') ?? 'ko';
